@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<audio id="loading" src="music/music.mp3" autoplay="true" hidden="true" loop="true"></audio>
+<div class="center">
+    <img class="img-header" src="img/logo.png" width="300">
+    <div class="space"></div>
+    <h1 class="name">SERVER NAME</h1>
+        <div class="space"></div>
+        <div class="loadbar"><div class="thingy"></div></div>
+    </div>
+    <script type="text/javascript">
+        var count = 0;
+        var thisCount = 0;
+    
+        const handlers = {
+    
+            initFunctionInvoking(data) {
+                document.querySelector('.thingy').style.left = '0%';
+                document.querySelector('.thingy').style.width = ((data.idx / count) * 100) + '%';
+            },
+    
+            startDataFileEntries(data) {
+                count = data.count;
+    
+    
+            },
+    
+            performMapLoadFunction(data) {
+                ++thisCount;
+    
+                document.querySelector('.thingy').style.left = '0%';
+                document.querySelector('.thingy').style.width = ((thisCount / count) * 100) + '%';
+            },
+    
+            onLogLine(data) {
+    
+            }
+        };
+    
+        window.addEventListener('message', function(e) {
+            (handlers[e.data.eventName] || function() {})(e.data);
+        });
+    </script>
+    <script>
+        var play = false;
+                var vid = document.getElementById("loading");
+                vid.volume = 0.1;
+                window.addEventListener('keyup', function(e)
+                {
+                    if (e.which == 69){
+                        vid.volume = Math.min(vid.volume + 0.1,1);
+                    } else if(e.which == 65){
+                        vid.volume = Math.max(vid.volume - 0.1,0);
+                    };
+                });
+        
+                var audio = document.querySelector('audio');
+        
+                if (audio) {
+        
+                window.addEventListener('keydown', function (event) {
+        
+                var key = event.which || event.keyCode;
+        
+                if (key === 32) { // spacebar
+        
+                event.preventDefault();
+        
+                audio.paused ? audio.play() : audio.pause();
+              
+            }
+        
+          });
+        }
+        </script>
+</body>
+</html>
